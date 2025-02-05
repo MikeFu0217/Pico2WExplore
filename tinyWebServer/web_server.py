@@ -19,9 +19,9 @@ def connect():
             sys.exit()
         print('Waiting for connection...')
         pico_led.on()
-        sleep(0.5)
+        sleep(1)
         pico_led.off()
-        sleep(0.5)
+        sleep(1)
     ip = wlan.ifconfig()[0]
     print(f'Connected on {ip}')
     pico_led.on()
@@ -61,7 +61,7 @@ def webpage(temperature, state):
 def serve(connection):
     #Start a web server
     state = 'OFF'
-    pico_led.off()
+    pico_led.on()
     temperature = 0
     while True:
         client = connection.accept()[0]
@@ -78,6 +78,7 @@ def serve(connection):
             pico_led.off()
             state = 'OFF'
         elif request == '/close?':
+            pico_led.off()
             sys.exit()
         html = webpage(temperature, state)
         client.send(html)
